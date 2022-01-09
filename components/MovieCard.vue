@@ -22,9 +22,8 @@
             {{ movie.title.slice(0, 25)}}
             </NuxtLink>
                   </h3>
-								<span class="card__category">
-									<a href="#">Action</a>
-									<a href="#">Triler</a>
+							<span class="card__category" style="color: #ffd80e">
+								{{ movie.genres.join(', ') }}
 								</span>
 							</div>
 						</div>

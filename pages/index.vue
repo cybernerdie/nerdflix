@@ -38,6 +38,7 @@ export default {
 
   data () {
     return {
+      movieGenres: [],
       upcomingMovies: [],
       popularMovies: [],
       topRatedMovies: [],
@@ -46,6 +47,8 @@ export default {
   },
 
   async fetch () {
+
+    await this.getMovieGenres()
 
     await this.getUpcomingMovies()
 
@@ -58,12 +61,24 @@ export default {
   },
 
   methods: {
+
+    async getMovieGenres () {
+        const data = axios.get(
+        'https://api.themoviedb.org/3/genre/movie/list?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US'
+      )
+      const result = await data
+      result.data.genres.forEach((genre) => {
+        this.movieGenres.push(genre)
+      })
+    },
+
     async getUpcomingMovies () {
       const data = axios.get(
         'https://api.themoviedb.org/3/movie/upcoming?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      result.data.results.forEach((movie) => {
+      let mappedData = this.mapMovieArray(result.data.results)
+      mappedData.forEach((movie) => {
         this.upcomingMovies.push(movie)
       })
     },
@@ -73,7 +88,8 @@ export default {
         'https://api.themoviedb.org/3/movie/popular?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      result.data.results.forEach((movie) => {
+     let mappedData = this.mapMovieArray(result.data.results)
+      mappedData.forEach((movie) => {
         this.popularMovies.push(movie)
       })
     },
@@ -83,7 +99,8 @@ export default {
         'https://api.themoviedb.org/3/movie/top_rated?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      result.data.results.forEach((movie) => {
+      let mappedData = this.mapMovieArray(result.data.results)
+      mappedData.forEach((movie) => {
         this.topRatedMovies.push(movie)
       })
     },
@@ -93,10 +110,32 @@ export default {
         'https://api.themoviedb.org/3/movie/now_playing?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      result.data.results.forEach((movie) => {
+      let mappedData = this.mapMovieArray(result.data.results)
+      mappedData.forEach((movie) => {
         this.nowPlayingMovies.push(movie)
       })
     },
+
+     mapMovieArray (movies) {
+
+      return movies.map(obj => ({
+        id: obj.id,
+        title: obj.title,
+        poster_path: obj.poster_path,
+        genres: this.getConvertedGenres(obj.genre_ids),
+        vote_average: obj.vote_average,
+      }));
+
+    },
+
+    getConvertedGenres (array) {
+      let genres = [];
+      array.forEach(id => {
+        let genre = this.movieGenres.filter(test => test.id == id)[0].name;
+        genres.push(genre)
+      })
+     return genres;
+    }
   }
 }
 </script>
