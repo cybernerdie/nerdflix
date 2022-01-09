@@ -77,7 +77,7 @@ export default {
         'https://api.themoviedb.org/3/movie/upcoming?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      let mappedData = this.mapMovieArray(result.data.results)
+      let mappedData = this.mapMovieArray(result.data.results).slice(0,18)
       mappedData.forEach((movie) => {
         this.upcomingMovies.push(movie)
       })
@@ -88,7 +88,7 @@ export default {
         'https://api.themoviedb.org/3/movie/popular?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-     let mappedData = this.mapMovieArray(result.data.results)
+     let mappedData = this.mapMovieArray(result.data.results).slice(0,18)
       mappedData.forEach((movie) => {
         this.popularMovies.push(movie)
       })
@@ -99,7 +99,7 @@ export default {
         'https://api.themoviedb.org/3/movie/top_rated?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      let mappedData = this.mapMovieArray(result.data.results)
+      let mappedData = this.mapMovieArray(result.data.results).slice(0,18)
       mappedData.forEach((movie) => {
         this.topRatedMovies.push(movie)
       })
@@ -110,7 +110,7 @@ export default {
         'https://api.themoviedb.org/3/movie/now_playing?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      let mappedData = this.mapMovieArray(result.data.results)
+      let mappedData = this.mapMovieArray(result.data.results).slice(0,18)
       mappedData.forEach((movie) => {
         this.nowPlayingMovies.push(movie)
       })

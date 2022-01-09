@@ -1,13 +1,13 @@
 <template>
 <div>
   <SiteHeader />
-    <Nuxt />
+    <Nuxt keep-alive />
   <SiteFooter />
   </div>
 </template>
 
 <script>
 export default {
-  
+
 }
 </script>

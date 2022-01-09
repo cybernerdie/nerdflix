@@ -77,7 +77,7 @@ export default {
         'https://api.themoviedb.org/3/tv/airing_today?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      let mappedData = this.mapTvArray(result.data.results)
+      let mappedData = this.mapTvArray(result.data.results).slice(0,18)
       mappedData.forEach((show) => {
         this.showsAiringToday.push(show)
       })
@@ -88,7 +88,7 @@ export default {
         'https://api.themoviedb.org/3/tv/on_the_air?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      let mappedData = this.mapTvArray(result.data.results)
+      let mappedData = this.mapTvArray(result.data.results).slice(0,18)
       mappedData.forEach((show) => {
         this.showsOnAir.push(show)
       })
@@ -99,7 +99,7 @@ export default {
         'https://api.themoviedb.org/3/tv/popular?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      let mappedData = this.mapTvArray(result.data.results)
+      let mappedData = this.mapTvArray(result.data.results).slice(0,18)
       mappedData.forEach((show) => {
         this.popularShows.push(show)
       })
@@ -110,7 +110,7 @@ export default {
         'https://api.themoviedb.org/3/tv/top_rated?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      let mappedData = this.mapTvArray(result.data.results)
+      let mappedData = this.mapTvArray(result.data.results).slice(0,18)
       mappedData.forEach((show) => {
         this.topRatedShows.push(show)
       })
@@ -125,7 +125,7 @@ export default {
         genres: this.getConvertedGenres(obj.genre_ids),
         vote_average: obj.vote_average,
       }));
-      
+
     },
 
     getConvertedGenres (array) {

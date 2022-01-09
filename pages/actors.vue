@@ -25,7 +25,8 @@ export default {
         'https://api.themoviedb.org/3/person/popular?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US&page=1'
       )
       const result = await data
-      result.data.results.forEach((actor) => {
+      let actors = result.data.results.slice(0,18)
+      actors.forEach((actor) => {
         this.popularActors.push(actor)
       })
     },
