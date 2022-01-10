@@ -8,7 +8,7 @@
 								<img :src="`https://image.tmdb.org/t/p/w500/${tv.poster_path}`" alt="">
                    <NuxtLink
               class="card__play"
-              :to="{ name: 'movies-id', params: { id: tv.id } }"
+               :to="`/tv/${tv.id}`"
             >
             <i class="icon ion-ios-play"></i>
             </NuxtLink>
@@ -16,8 +16,8 @@
 							</div>
 							<div class="card__content">
 								<h3 class="card__title">
-                   <NuxtLink
-              :to="{ name: 'movies-id', params: { id: tv.id } }"
+                  <NuxtLink
+                   :to="`/tv/${tv.id}`"
             >
             {{ tv.name.slice(0, 25)}}
             </NuxtLink>

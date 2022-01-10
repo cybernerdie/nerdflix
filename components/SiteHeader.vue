@@ -17,7 +17,7 @@
                  <NuxtLink to="/"  class="header__nav-link">Movies </NuxtLink>
 							</li>
 							<li class="header__nav-item">
-                <NuxtLink to="/tv"  class="header__nav-link">TV Shows </NuxtLink>
+                <NuxtLink to="/tvs"  class="header__nav-link">TV Shows </NuxtLink>
 							</li>
 
 							<li class="header__nav-item">

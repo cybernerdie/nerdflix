@@ -12,14 +12,18 @@
                         <div class="col-6 col-sm-4 col-md-3 col-xl-2" v-for="(actor, index) in actors" :key="index">
                             <div class="card">
                                 <div class="card__cover">
-                                    <a href="">
+                                       <NuxtLink
+                                        :to="`/actor/${actor.id}`"
+                                      >
                                         <img :src="`https://www.themoviedb.org/t/p/w470_and_h470_face/${actor.profile_path}`" alt="poster">
-                                    </a>
+                                       </NuxtLink>
                                 </div>
                                 <div class="card__content">
-                                    <h3 class="card__title"><a href="">{{ actor.name }}</a></h3>
+                                    <h3 class="card__title">
+                                <NuxtLink :to="`/actor/${actor.id}`"> {{ actor.name }} </NuxtLink>
+                                      </h3>
                                     <span class="card__category" style="color: #ffd80e">
-                                        <!-- {{ $actor['known_for'] }} -->
+                                        {{ displayKnownFor(actor.known_for) }}
                                     </span>
                                 </div>
                             </div>
@@ -50,5 +54,14 @@
 export default {
   name: 'ActorCard',
     props: ['actors'],
+
+    methods: {
+      displayKnownFor(array) {
+        let names;
+        names = array.map( (known) => known.name ? known.name : known.title);
+        return names.join(', ');
+
+      }
+    }
 }
 </script>
