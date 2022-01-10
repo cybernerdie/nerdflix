@@ -96,12 +96,20 @@
                     <div class="col-6 col-sm-4 col-md-3 col-xl-2" v-for="(cast, index) in casts" :key="index">
                         <div class="card">
                             <div class="card__cover">
-                                <a href="">
+                               <NuxtLink
+                                        :to="`/actor/${cast.id}`"
+                                      >
                                     <img :src="`https://image.tmdb.org/t/p/w500/${cast.profile_path}`" alt="actor">
-                                </a>
+                               </NuxtLink>
                             </div>
                             <div class="card__content">
-                                <h3 class="card__title"> <a href="">{{ cast.name }}</a></h3>
+                                <h3 class="card__title">
+                                     <NuxtLink
+                                        :to="`/actor/${cast.id}`"
+                                      >
+                                  {{ cast.name }}
+                                     </NuxtLink>
+                                  </h3>
 
                                 <span class="card__category" style="color: #ffd80e">
                                     {{ cast.character }}

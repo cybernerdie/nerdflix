@@ -27,8 +27,16 @@
                             <div class="card__content">
                                 <ul class="card__meta">
                                     <li>Country: <span class="ml-3" style="color: #ffd80e">{{ actor.place_of_birth }}</span></li>
-                                    <li>Date of Birth: <span class="ml-3" style="color: #ffd80e">{{ actor.birthday }}</span></li>
-                                    <li>Age: <span class="ml-3" style="color: #ffd80e">{{ actor.age }} years old</span></li>
+                                    <li>Date of Birth: <span class="ml-3" style="color: #ffd80e">
+                                      {{
+                                        new Date(actor.birthday).toLocaleString('en-us', {
+                                          month: 'long',
+                                          day: 'numeric',
+                                          year: 'numeric',
+                                        })
+                                      }}
+                                      </span></li>
+                                    <li>Age: <span class="ml-3" style="color: #ffd80e"> {{ calculateAge(actor.birthday) }} years old</span></li>
                                 </ul>
                                 <div class="card__description">
                                     {{ actor.biography }}
@@ -48,14 +56,22 @@
                                     </ul>
                                     <br>
                                     <div class="row">
-                                     <div class="col-6 col-sm-4 col-md-3 col-xl-2">
+                                     <div class="col-6 col-sm-4 col-md-3 col-xl-2" v-for="(known, index) in knownFor" :key="index">
                                             <div class="card">
                                                 <div class="card__cover">
-                                                    <a href=""><img src="" alt="" style="width: 100%"></a>
+                                                   <NuxtLink
+                                                       :to="`/${known.media_type}/${known.id}`"
+                                                        >
+                                                       <img :src="`https://image.tmdb.org/t/p/w500/${known.poster_path}`" alt="" style="width: 100%">
+                                                        </NuxtLink>
                                                 </div>
                                                 <div class="card__content">
                                                     <span class="card__category" >
-                                                        <a href="" style="color: #ffd80e"></a>
+                                                        <NuxtLink style="color: #ffd80e"
+                                                       :to="`/${known.media_type}/${known.id}`"
+                                                        >
+                                                        {{ known.original_name ? known.original_name : known.original_title }}
+                                                        </NuxtLink>
                                                     </span>
                                                 </div>
                                             </div>
@@ -71,6 +87,24 @@
         </div>
     </div>
 </section>
+<div class="container mb-4">
+        <div class="col-12 mb-4">
+            <h2 class="content__title">Credits</h2>
+        </div>
+            <div class="col-12 col-sm-6 col-md-6 col-xl-6" v-for="(credit, index) in credits" :key="index">
+                <h3 class="card__title"><li>  {{
+                                        new Date(credit.release_date ? credit.release_date : credit.first_air_date).toLocaleString('en-us', {
+                                          year: 'numeric', })
+                                      }} -
+                  <strong>
+                    <NuxtLink
+                    class="hover:underline"
+                    :to="`/${credit.media_type}/${credit.id}`">
+                    {{ credit.original_title ? credit.original_title : credit.original_name }}
+                    </NuxtLink>
+                  </strong> as {{ credit.character }}</li></h3>
+            </div>
+</div>
 </div>
 </div>
 </template>
@@ -86,13 +120,13 @@ export default {
       actor: null,
       credits: [],
       knownFor: [],
+      credits: []
     }
   },
 
    async fetch() {
     await this.getSingleActor()
     await this.getCredits()
-    await this.getKnownFor()
   },
 
  fetchDelay: 2000,
@@ -107,11 +141,21 @@ export default {
     },
 
     async getCredits() {
-      const data = axios.get(
-        `https://api.themoviedb.org/3/person/${this.$route.params.tvid}/credits?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US`
+    const data = axios.get(
+        `https://api.themoviedb.org/3/person/${this.$route.params.actorid}/combined_credits?api_key=5f41b1d865a3f2f545a6e714e41360fb&language=en-US`
       )
       const result = await data
+      let credits = result.data.cast
+      this.knownFor = credits.slice(0,6)
+      this.credits = credits
     },
+
+    calculateAge (date){
+      let currentDate =  new Date().toLocaleString('en-us', { year: 'numeric', })
+      let birthday = new Date(date).toLocaleString('en-us', { year: 'numeric', })
+      let age = currentDate - birthday;
+      return age
+    }
   }
 }
 </script>
